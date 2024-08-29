@@ -1,5 +1,6 @@
 import 'package:buuk/models/note_database.dart';
 import 'package:buuk/pages/notes_page.dart';
+import 'package:buuk/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +10,11 @@ void main() async {
   await NoteDatabase.initialize();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => NoteDatabase(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NoteDatabase()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
       child: const MainApp(),
     ),
   );
@@ -21,8 +25,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: NotesPage(),
+    return MaterialApp(
+      theme: context.watch<ThemeProvider>().themeData,
+      home: const NotesPage(),
     );
   }
 }

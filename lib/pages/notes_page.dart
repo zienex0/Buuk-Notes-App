@@ -11,8 +11,6 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  TextEditingController textController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -20,6 +18,8 @@ class _NotesPageState extends State<NotesPage> {
     // fetch notes on start up
     readNotes(context);
   }
+
+  TextEditingController textController = TextEditingController();
 
   // show dialog to create note
   void showCreateNoteDialog(BuildContext context) {
@@ -108,9 +108,8 @@ class _NotesPageState extends State<NotesPage> {
     }
   }
 
-  // delete note
+  // delete note by its id
   Future<void> deleteNote(BuildContext context, int id) async {
-    // TODO implement deleting notes logic
     try {
       await context.read<NoteDatabase>().deleteNote(id);
       if (!context.mounted) return;
@@ -127,9 +126,13 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Note> currentNotes = context.watch<NoteDatabase>().currentNotes;
+
     return Scaffold(
+      // appbar
       appBar: AppBar(
-        title: const Text('Notes'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
 
       // add notes button
@@ -138,35 +141,44 @@ class _NotesPageState extends State<NotesPage> {
         child: const Icon(Icons.add),
       ),
 
-      // display notes in list view
-      body: Consumer<NoteDatabase>(
-        builder: (context, noteDatabase, child) {
-          return ListView.builder(
-              itemCount: noteDatabase.currentNotes.length,
-              itemBuilder: (context, index) {
-                final note = noteDatabase.currentNotes[index];
-                return ListTile(
-                  title: Text(note.title),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          showUpdateNoteDialog(context, note);
-                        },
-                        icon: const Icon(Icons.edit),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deleteNote(context, note.id);
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
-                );
-              });
-        },
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // appbar alternative
+          const Padding(
+            padding: EdgeInsets.all(25.0),
+            child: Text('Notes'),
+          ),
+
+          // display notes in list view
+          Expanded(
+            child: ListView.builder(
+                itemCount: currentNotes.length,
+                itemBuilder: (context, index) {
+                  final note = currentNotes[index];
+                  return ListTile(
+                    title: Text(note.title),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showUpdateNoteDialog(context, note);
+                          },
+                          icon: const Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            deleteNote(context, note.id);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }
