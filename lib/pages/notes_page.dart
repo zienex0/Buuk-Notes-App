@@ -1,6 +1,7 @@
 import 'package:buuk/models/note.dart';
 import 'package:buuk/models/note_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class NotesPage extends StatefulWidget {
@@ -129,11 +130,14 @@ class _NotesPageState extends State<NotesPage> {
     List<Note> currentNotes = context.watch<NoteDatabase>().currentNotes;
 
     return Scaffold(
-      // appbar
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      // transparent and empty appbar
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: Drawer(),
 
       // add notes button
       floatingActionButton: FloatingActionButton(
@@ -145,9 +149,14 @@ class _NotesPageState extends State<NotesPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // appbar alternative
-          const Padding(
-            padding: EdgeInsets.all(25.0),
-            child: Text('Notes'),
+          Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Text(
+              'Buuk',
+              style: GoogleFonts.dmSerifText(
+                  fontSize: 48,
+                  color: Theme.of(context).colorScheme.inversePrimary),
+            ),
           ),
 
           // display notes in list view
