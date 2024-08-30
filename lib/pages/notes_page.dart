@@ -1,3 +1,4 @@
+import 'package:buuk/components/drawer.dart';
 import 'package:buuk/models/note.dart';
 import 'package:buuk/models/note_database.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class _NotesPageState extends State<NotesPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
-      drawer: Drawer(),
+      drawer: MyDrawer(),
 
       // add notes button
       floatingActionButton: FloatingActionButton(
