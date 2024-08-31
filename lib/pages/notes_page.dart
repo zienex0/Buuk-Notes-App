@@ -72,6 +72,26 @@ class _NotesPageState extends State<NotesPage> {
         });
   }
 
+  void showDeleteNoteDialog(BuildContext context, Note note) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Are you sure you want to delete "${note.title}"?'),
+            actions: [
+              MaterialButton(
+                onPressed: () async {
+                  await deleteNote(context, note.id);
+                  if (!context.mounted) return;
+                  Navigator.pop(context);
+                },
+                child: const Text('Delete'),
+              )
+            ],
+          );
+        });
+  }
+
   // create note
   Future<void> createNote(BuildContext context, String noteTitle) async {
     try {
@@ -136,9 +156,12 @@ class _NotesPageState extends State<NotesPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
-      drawer: MyDrawer(),
+
+      // drawer
+      drawer: const MyDrawer(),
 
       // add notes button
       floatingActionButton: FloatingActionButton(
@@ -155,9 +178,17 @@ class _NotesPageState extends State<NotesPage> {
             child: Text(
               'Buuk',
               style: GoogleFonts.dmSerifText(
-                  fontSize: 48,
+                  fontSize: 55,
                   color: Theme.of(context).colorScheme.inversePrimary),
             ),
+          ),
+          Container(
+            height: 2,
+            width: double.infinity,
+            margin: const EdgeInsets.only(right: 10, left: 10),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(5)),
           ),
 
           // display notes in list view
@@ -167,21 +198,36 @@ class _NotesPageState extends State<NotesPage> {
                 itemBuilder: (context, index) {
                   final note = currentNotes[index];
                   return ListTile(
-                    title: Text(note.title),
+                    title: Text(
+                      note.title,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.inversePrimary),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        // edit button
                         IconButton(
                           onPressed: () {
                             showUpdateNoteDialog(context, note);
                           },
-                          icon: const Icon(Icons.edit),
+                          icon: Icon(
+                            Icons.edit,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
+                        // delete button
                         IconButton(
                           onPressed: () {
-                            deleteNote(context, note.id);
+                            showDeleteNoteDialog(context, note);
                           },
-                          icon: const Icon(Icons.delete),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ],
                     ),

@@ -1,4 +1,6 @@
 import 'package:buuk/components/drawer_tile.dart';
+import 'package:buuk/pages/notes_page.dart';
+import 'package:buuk/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,13 +39,24 @@ class MyDrawer extends StatelessWidget {
                 Icons.home_filled,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onTap: () {}),
+              onTap: () {
+                // go back to the root page
+                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.of(context).pop();
+              }),
 
           DrawerTile(
               title: 'Settings',
               leading: Icon(Icons.settings,
                   color: Theme.of(context).colorScheme.primary),
-              onTap: () {}),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const SettingsPage(),
+                  ),
+                );
+              }),
         ],
       ),
     );
