@@ -1,6 +1,8 @@
+import 'package:buuk/components/note_settings.dart';
 import 'package:buuk/models/note.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:popover/popover.dart';
 
 class NoteTile extends StatelessWidget {
   final Note note;
@@ -32,31 +34,20 @@ class NoteTile extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // edit button
-            IconButton(
-              onPressed: () {
-                onEdit();
-              },
-              icon: Icon(
-                Icons.edit,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            // delete button
-            IconButton(
-              onPressed: () {
-                onDelete();
-              },
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ],
-        ),
+        trailing: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () {
+              showPopover(
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  context: context,
+                  bodyBuilder: (context) => NoteSettings(
+                        onEdit: () => onEdit(),
+                        onDelete: () => onDelete(),
+                      ));
+            },
+          );
+        }),
       ),
     );
   }

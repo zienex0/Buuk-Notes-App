@@ -25,7 +25,7 @@ class MyDrawer extends StatelessWidget {
                   'Buuk Notes',
                   style: GoogleFonts.dmSerifText(
                       fontSize: 24,
-                      color: Theme.of(context).colorScheme.inversePrimary),
+                      color: Theme.of(context).colorScheme.primary),
                 )
               ],
             ),

@@ -30,6 +30,7 @@ class _NotesPageState extends State<NotesPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: Theme.of(context).colorScheme.surface,
             content: TextField(
               controller: textController,
             ),
@@ -54,6 +55,7 @@ class _NotesPageState extends State<NotesPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: Theme.of(context).colorScheme.surface,
             content: TextField(
               controller: textController,
             ),
