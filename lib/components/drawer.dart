@@ -1,5 +1,4 @@
 import 'package:buuk/components/drawer_tile.dart';
-import 'package:buuk/pages/notes_page.dart';
 import 'package:buuk/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -4,6 +4,7 @@ import 'package:buuk/models/note_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:buuk/components/note_tile.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -165,6 +166,8 @@ class _NotesPageState extends State<NotesPage> {
 
       // add notes button
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        foregroundColor: Theme.of(context).colorScheme.secondary,
         onPressed: () => showCreateNoteDialog(context),
         child: const Icon(Icons.add),
       ),
@@ -182,12 +185,13 @@ class _NotesPageState extends State<NotesPage> {
                   color: Theme.of(context).colorScheme.inversePrimary),
             ),
           ),
+          // horizontal line
           Container(
             height: 2,
             width: double.infinity,
             margin: const EdgeInsets.only(right: 10, left: 10),
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(5)),
           ),
 
@@ -197,40 +201,10 @@ class _NotesPageState extends State<NotesPage> {
                 itemCount: currentNotes.length,
                 itemBuilder: (context, index) {
                   final note = currentNotes[index];
-                  return ListTile(
-                    title: Text(
-                      note.title,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).colorScheme.inversePrimary),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // edit button
-                        IconButton(
-                          onPressed: () {
-                            showUpdateNoteDialog(context, note);
-                          },
-                          icon: Icon(
-                            Icons.edit,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        // delete button
-                        IconButton(
-                          onPressed: () {
-                            showDeleteNoteDialog(context, note);
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
+                  return NoteTile(
+                    note: note,
+                    onEdit: () => showUpdateNoteDialog(context, note),
+                    onDelete: () => showDeleteNoteDialog(context, note),
                   );
                 }),
           ),
