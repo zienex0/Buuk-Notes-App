@@ -1,5 +1,6 @@
 import 'package:buuk/components/note_settings.dart';
 import 'package:buuk/models/note.dart';
+import 'package:buuk/pages/note_content_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:popover/popover.dart';
@@ -25,9 +26,17 @@ class NoteTile extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NoteContentPage(
+                        note: note,
+                      )));
+        },
         title: Text(
           note.title,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.dmSerifText(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.inversePrimary),

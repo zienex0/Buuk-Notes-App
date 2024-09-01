@@ -58,6 +58,7 @@ class _NotesPageState extends State<NotesPage> {
             backgroundColor: Theme.of(context).colorScheme.surface,
             content: TextField(
               controller: textController,
+              style: GoogleFonts.dmSerifText(fontSize: 16),
             ),
             actions: [
               MaterialButton(
@@ -80,7 +81,11 @@ class _NotesPageState extends State<NotesPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Text('Are you sure you want to delete "${note.title}"?'),
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            content: Text(
+              'Are you sure you want to delete "${note.title}"?',
+              style: GoogleFonts.roboto(fontSize: 16),
+            ),
             actions: [
               MaterialButton(
                 onPressed: () async {
